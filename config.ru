@@ -1,20 +1,6 @@
-require 'rubygems'
-require 'bundler'
-
-Bundler.require
-
-require './api/notes'
-require './models/note'
-require './app'
-require 'rack/cors'
-
-use Rack::Cors do
-  allow do
-    origins '*'
-    resource '*', headers: :any, methods: :get
-  end
-end
+require File.expand_path('../config/environment', __FILE__)
+require File.expand_path('../app', __FILE__)
 
 ActiveSupport::JSON::Encoding.use_standard_json_time_format = false
 
-run Rack::Cascade.new [Notes::Application, Notes::API::Notes]
+run Notes::App.instance

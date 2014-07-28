@@ -4,3 +4,4 @@ notes.iml
 notes.ipr
 notes.iws
 db/schema.rb
+log/*.log
