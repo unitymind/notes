@@ -1,0 +1,6 @@
+.rakeTasks
+atlassian-ide-plugin.xml
+notes.iml
+notes.ipr
+notes.iws
+db/schema.rb
