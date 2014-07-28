@@ -6,6 +6,8 @@ require 'boot'
 
 Bundler.require :default, ENV['RACK_ENV']
 
+require 'sinatra/activerecord'
+
 Dir[File.expand_path('../../app/*.rb', __FILE__)].each do |file|
   require file
 end
@@ -13,3 +15,5 @@ end
 Dir[File.expand_path('../../models/*.rb', __FILE__)].each do |file|
   require file
 end
+
+ActiveSupport::JSON::Encoding.use_standard_json_time_format = false

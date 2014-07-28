@@ -5,12 +5,12 @@ module Notes
     default_error_formatter :json
     cascade false
 
-    rescue_from ActiveRecord::RecordNotFound do |e|
+    rescue_from ::ActiveRecord::RecordNotFound do |e|
       message = { error: e.message }
       rack_response(format_message(message, e.backtrace), 404 )
     end
 
-    rescue_from ActiveRecord::RecordInvalid do |e|
+    rescue_from ::ActiveRecord::RecordInvalid do |e|
       message = { error: e.message }
       rack_response(format_message(message, e.backtrace), 422 )
     end
