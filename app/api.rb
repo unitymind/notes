@@ -27,12 +27,12 @@ module Notes
         present :notes, ::Notes::Note.all
       end
 
+      desc 'Create Note item'
       params do
         requires :note, type: Hash do
           requires :title, type: String
         end
       end
-      desc 'Create Note item'
       post do
         present :note, ::Notes::Note.create!(permitted_params[:note])
       end
@@ -50,6 +50,17 @@ module Notes
         delete do
           ::Notes::Note.find(permitted_params[:id]).destroy
           status(204)
+        end
+
+        desc 'Update Note item by id'
+        params do
+          requires :note, type: Hash do
+            requires :title, type: String
+          end
+        end
+        put do
+          note = ::Notes::Note.find(permitted_params[:id])
+          note.update!(permitted_params[:note])
         end
       end
     end

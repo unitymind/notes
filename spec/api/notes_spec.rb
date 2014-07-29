@@ -91,6 +91,19 @@ module Notes
       end
     end
 
+    context 'PUT /notes/{id}' do
+      it 'update note and return 200' do
+        note = create(Note.singular_sym)
+        params = { note: {title: Faker::Lorem.sentence} }
+        put "/notes/#{note.id}", params.merge({format: :json})
+        expect(last_response.status).to eql 200
+        expect(last_response.body).to eq 'true'
+        note.reload
+        expect(note.title).to eql params[:note][:title]
+      end
+    end
+
+
     context 'GET /missed_api_route' do
       it 'returns 404 with error message' do
         get '/missed_api_route'
