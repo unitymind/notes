@@ -2,11 +2,13 @@ var notesApp = angular.module('notesApp', [
     'ngRoute',
     'restangular',
     'notesAnimations',
-    'notesControllers'
+    'notesControllers',
+    'angular-flash.service',
+    'angular-flash.flash-alert-directive'
 ]);
 
-notesApp.config(['$routeProvider',
-    function($routeProvider) {
+notesApp.config(['$routeProvider', 'RestangularProvider',
+    function($routeProvider, RestangularProvider) {
         $routeProvider.
             when('/index', {
                 templateUrl: 'app/views/note-list.html',
@@ -19,17 +21,16 @@ notesApp.config(['$routeProvider',
             otherwise({
                 redirectTo: '/index'
             });
-    }]);
 
-notesApp.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('/api');
-    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-        var extractedData;
-        if (operation === "getList") {
-            extractedData = data.notes;
-        } else {
-            extractedData = data.note;
-        }
-        return extractedData;
-    });
-});
+        RestangularProvider.setBaseUrl('/api');
+        RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+            var extractedData;
+            if (operation === "getList") {
+                extractedData = data.notes;
+            } else {
+                extractedData = data.note;
+            }
+            return extractedData;
+        });
+    }
+]);

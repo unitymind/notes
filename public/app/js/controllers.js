@@ -1,6 +1,6 @@
 var notesControllers = angular.module('notesControllers', ['restangular']);
 
-notesControllers.controller('NoteListCtrl', ['$scope', '$animate', 'Restangular', function($scope, $animate, Restangular) {
+notesControllers.controller('NoteListCtrl', ['$scope', '$animate', 'Restangular', 'flash', function($scope, $animate, Restangular, flash) {
     $scope.isEmpty = true;
     $scope.isRefreshing = false;
     $scope.orderField = 'created_at';
@@ -30,14 +30,16 @@ notesControllers.controller('NoteListCtrl', ['$scope', '$animate', 'Restangular'
             if (_.size($scope.notes) === 0) {
                 $scope.isEmpty = true;
             }
+            flash.success = 'Note deleted';
         });
     };
 
     $scope.refresh();
-}]).controller('NoteFormCtrl', ['$scope', '$location', 'Restangular', function($scope, $location, Restangular) {
+}]).controller('NoteFormCtrl', ['$scope', '$location', 'Restangular', 'flash', function($scope, $location, Restangular, flash) {
     $scope.save = function() {
         Restangular.all('notes').post({note: $scope.note}).then(function(note) {
             console.log(note.id);
+            flash.success = 'Note created';
             $location.path("/#/index");
         });
     };

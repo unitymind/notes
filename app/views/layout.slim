@@ -15,10 +15,6 @@ html[ng-app="notesApp"]
           a.navbar-brand[href="/"]
             | Notes API UI
     .container
-      div
-        - if @error then
-          .alert.alert-error
-            = @error
       == yield
     script[src="/js/jquery-1.11.1.js"]
     script[src="/js/underscore.js"]
@@ -26,6 +22,7 @@ html[ng-app="notesApp"]
     script[src="/js/angular.js"]
     script[src="/js/angular-route.js"]
     script[src="/js/angular-animate.js"]
+    script[src="/js/angular-flash.js"]
     script[src="/js/restangular.js"]
     script[src="/js/moment-with-langs.js"]
     script[src="/app/js/application.js"]
