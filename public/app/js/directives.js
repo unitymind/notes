@@ -12,9 +12,9 @@ angular.module('notesApp').directive('confirmDelete', function(){
             };
             $scope.cancel = function() {
                 $scope.isDeleting = false;
-                $scope.confirm = function() {
-                    $scope.onConfirm()
-                }
+            };
+            $scope.confirm = function() {
+                $scope.onConfirm();
             };
         }
     }
