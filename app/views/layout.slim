@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title
+      | Notes API UI
+    meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+    link[href="/bootstrap/css/bootstrap.css" rel="stylesheet"]
+    link[href="/bootstrap/css/bootstrap.theme.css" rel="stylesheet"]
+  body
+    .container
+      .navbar.navbar-default[role="navigation"]
+        .navbar-header
+          a.navbar-brand[href="/"]
+            | Notes API UI
+      div
+        - if @error then
+          .alert.alert-error
+            =@error
+        = yield
+    script[src="/js/jquery-1.11.1.js"]
+    script[src="/bootstrap/js/bootstrap.js"]
+    script[src="/js/angular.js"]
+    script[src="/js/angular-route.js"]
+    script[src="/js/angular-resource.js"]

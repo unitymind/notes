@@ -12,6 +12,8 @@ gem 'grape'
 gem 'grape-entity'
 gem 'puma'
 
+gem 'html2slim', group: :development
+
 group :test do
   gem 'rspec'
   gem 'factory_girl'
