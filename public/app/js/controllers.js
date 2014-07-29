@@ -3,6 +3,11 @@ var notesControllers = angular.module('notesControllers', ['restangular']);
 notesControllers.controller('NoteListCtrl', ['$scope', '$animate', 'Restangular', function($scope, $animate, Restangular) {
     $scope.isEmpty = true;
     $scope.isRefreshing = false;
+    $scope.orderField = 'created_at';
+
+    $scope.toggleOrder = function() {
+        $scope.orderField = ($scope.orderField === 'created_at') ? '-created_at' : 'created_at';
+    }
 
     $scope.refresh = function() {
         $scope.isRefreshing = true;

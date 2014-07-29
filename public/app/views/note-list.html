@@ -7,12 +7,12 @@
         <tr>
             <th class="col-md-1">ID</th>
             <th class="col-md-6">Title</th>
-            <th class="col-md-2">Created at</th>
+            <th class="col-md-2">Created at &nbsp;<a class='btn-link' ng-click="toggleOrder()"><span class="glyphicon" ng-class="(orderField == 'created_at') ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span></a></th>
             <th><a class="btn btn-success" href="/#/new">Create note</a></th>
         </tr>
     </thead>
     <tbody>
-        <tr class="note-listing" ng-repeat="note in notes">
+        <tr class="note-listing" ng-repeat="note in notes | orderBy: orderField">
             <td>{{note.id}}</td>
             <td>{{note.title}}</td>
             <td>{{note.created_at | fromNow}}</td>
