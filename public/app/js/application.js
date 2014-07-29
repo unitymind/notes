@@ -12,9 +12,9 @@ notesApp.config(['$routeProvider',
                 templateUrl: 'app/views/note-list.html',
                 controller: 'NoteListCtrl'
             }).
-            when('/phones/:phoneId', {
-                templateUrl: 'partials/phone-detail.html',
-                controller: 'PhoneDetailCtrl'
+            when('/new', {
+                templateUrl: 'app/views/note-form.html',
+                controller: 'NoteFormCtrl'
             }).
             otherwise({
                 redirectTo: '/index'

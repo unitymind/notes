@@ -1,16 +1,14 @@
 <div class="page-header">
     <h1>Your Notes</h1>
 </div>
-<p>
-    <a class="btn btn-success" href="/">New Note</a>
-</p>
-<table class="table table-striped">
+<a class="btn btn-success" href="/#/new" ng-show="isEmpty">Create note</a>
+<table class="table table-striped" ng-hide="isEmpty">
     <thead>
         <tr>
             <th class="col-md-1">ID</th>
             <th class="col-md-6">Title</th>
             <th class="col-md-2">Created at</th>
-            <th></th>
+            <th><a class="btn btn-success" href="/#/new">Create note</a></th>
         </tr>
     </thead>
     <tbody>
@@ -22,3 +20,4 @@
         </tr>
     </tbody>
 </table>
+<a class="btn btn-primary" ng-click="refresh()" ng-disabled="isRefreshing" ng-hide="isRefreshing">Refresh</a>

@@ -1,0 +1,21 @@
+<div class="page-header">
+    <h1>Create new note</h1>
+</div>
+<p>
+
+</p>
+<form role="form" class="form-horizontal" name="noteForm" novalidate>
+    <div class="form-group" ng-class="noteForm.title.$invalid ? 'has-error' : ''">
+        <label for="title" class="col-sm-1 control-label">Title</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="title" name="title" ng-model="note.title" placeholder="Enter title" required />
+            <span ng-show="noteForm.title.$invalid" class="help-block">Title is required.</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-7">
+            <a class="btn btn-default" href="/#/index">Back</a>
+            <input type="submit" class="btn btn-primary pull-right" ng-click="save()" ng-disabled="noteForm.$invalid" />
+        </div>
+    </div>
+</form>
