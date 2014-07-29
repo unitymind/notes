@@ -35,12 +35,28 @@ notesControllers.controller('NoteListCtrl', ['$scope', '$animate', 'Restangular'
     };
 
     $scope.refresh();
-}]).controller('NoteFormCtrl', ['$scope', '$location', 'Restangular', 'flash', function($scope, $location, Restangular, flash) {
-    $scope.save = function() {
-        Restangular.all('notes').post({note: $scope.note}).then(function(note) {
-            console.log(note.id);
-            flash.success = 'Note created';
-            $location.path("/#/index");
-        });
-    };
+}]).controller('NoteFormCtrl', ['$scope', '$location', 'Restangular', 'flash', '$routeParams',
+        function($scope, $location, Restangular, flash, $routeParams) {
+            if ($routeParams.noteId) {
+                $scope.pageHeader = 'Edit your note';
+                Restangular.one("notes", $routeParams.noteId).get().then(function(item){
+                    $scope.note = item
+                });
+            } else {
+                $scope.note = {}
+                $scope.pageHeader = 'Create new note';
+            }
+            $scope.save = function() {
+                if ($routeParams.noteId) {
+                    $scope.note.save().then(function(){
+                        flash.success = 'Note saved';
+                        $location.path("/#/index");
+                    });
+                } else {
+                    Restangular.all('notes').post($scope.note).then(function(note) {
+                        flash.success = 'Note created';
+                        $location.path("/#/index");
+                    });
+                }
+            };
 }]);

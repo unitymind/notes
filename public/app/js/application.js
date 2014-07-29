@@ -18,6 +18,10 @@ notesApp.config(['$routeProvider', 'RestangularProvider',
                 templateUrl: 'app/views/note-form.html',
                 controller: 'NoteFormCtrl'
             }).
+            when('/edit/:noteId', {
+                templateUrl: 'app/views/note-form.html',
+                controller: 'NoteFormCtrl'
+            }).
             otherwise({
                 redirectTo: '/index'
             });
@@ -25,12 +29,38 @@ notesApp.config(['$routeProvider', 'RestangularProvider',
         RestangularProvider.setBaseUrl('/api');
         RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
             var extractedData;
-            if (operation === "getList") {
-                extractedData = data.notes;
+            if (what === 'notes') {
+                if (operation === "getList") {
+                    extractedData = data.notes;
+                } else {
+                    extractedData = data.note;
+                }
             } else {
-                extractedData = data.note;
+                extractedData = data;
             }
+
             return extractedData;
+        });
+
+        RestangularProvider.addRequestInterceptor(function(element, operation, what) {
+            var modifiedData;
+            switch (what) {
+                case 'notes':
+                    switch (operation) {
+                        case 'put':
+                        case 'post':
+                            modifiedData = { note: element };
+                            break;
+                        default:
+                            modifiedData = element;
+                    }
+                    break;
+                default:
+                    modifiedData = element;
+                    break;
+            }
+
+            return modifiedData;
         });
     }
 ]);
