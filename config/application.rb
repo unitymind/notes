@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app'))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'models'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app/models'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'boot'
@@ -12,7 +12,7 @@ Dir[File.expand_path('../../app/*.rb', __FILE__)].each do |file|
   require file
 end
 
-Dir[File.expand_path('../../models/*.rb', __FILE__)].each do |file|
+Dir[File.expand_path('../../app/models/*.rb', __FILE__)].each do |file|
   require file
 end
 
