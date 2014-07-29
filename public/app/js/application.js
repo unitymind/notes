@@ -1,6 +1,7 @@
 var notesApp = angular.module('notesApp', [
     'ngRoute',
     'restangular',
+    'notesAnimations',
     'notesControllers'
 ]);
 

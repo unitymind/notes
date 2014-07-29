@@ -1,0 +1,32 @@
+.note-listing.ng-enter,
+.note-listing.ng-leave,
+.note-listing.ng-move {
+    -webkit-transition: 0.5s linear all;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+}
+
+.note-listing.ng-enter,
+.note-listing.ng-move {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.note-listing.ng-move.ng-move-active,
+.note-listing.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.note-listing.ng-leave {
+    opacity: 1;
+    overflow: hidden;
+}
+
+.note-listing.ng-leave.ng-leave-active {
+    opacity: 0;
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
