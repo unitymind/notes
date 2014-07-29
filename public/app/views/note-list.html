@@ -1,0 +1,24 @@
+<div class="page-header">
+    <h1>Your Notes</h1>
+</div>
+<p>
+    <a class="btn btn-success" href="/">New Note</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="col-md-1">ID</th>
+            <th class="col-md-6">Title</th>
+            <th class="col-md-2">Created at</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="note in notes">
+            <td>{{note.id}}</td>
+            <td>{{note.title}}</td>
+            <td>{{note.created_at | fromNow}}</td>
+            <td><div confirm-delete on-confirm="delete(note)"></div></td>
+        </tr>
+    </tbody>
+</table>
