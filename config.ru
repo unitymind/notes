@@ -1,2 +1,6 @@
 require File.expand_path('../config/environment', __FILE__)
-run Notes::ApiApp.instance
+
+run Rack::URLMap.new({
+  '/' => Notes::FrontendApp.new,
+  '/api' => Notes::ApiApp.instance
+})

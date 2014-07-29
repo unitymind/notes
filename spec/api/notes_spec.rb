@@ -6,6 +6,30 @@ module Notes
       Notes::ApiApp.instance
     end
 
+    context 'CORS' do
+      it 'supports options' do
+        options '/', {},
+                'HTTP_ORIGIN' => 'http://cors.example.com',
+                'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'Origin, Accept, Content-Type',
+                'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
+
+        expect(last_response.status).to eql 200
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eql 'http://cors.example.com'
+        expect(last_response.headers['Access-Control-Expose-Headers']).to eql ''
+      end
+
+      it 'includes Access-Control-Allow-Origin in the response' do
+        get '/notes', {}, 'HTTP_ORIGIN' => 'http://cors.example.com'
+        expect(last_response.status).to eql 200
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eql 'http://cors.example.com'
+      end
+      it 'includes Access-Control-Allow-Origin in errors' do
+        get '/invalid', {}, 'HTTP_ORIGIN' => 'http://cors.example.com'
+        expect(last_response.status).to eql 404
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eql 'http://cors.example.com'
+      end
+    end
+
     context 'GET /notes' do
       it 'returns an empty array of notes' do
         get '/notes'
@@ -64,6 +88,16 @@ module Notes
         delete "/notes/#{note.id}"
         expect(last_response.status).to eql 204
         expect(last_response.body).to be_empty
+      end
+    end
+
+    context 'GET /missed_api_route' do
+      it 'returns 404 with error message' do
+        get '/missed_api_route'
+        expect(last_response.status).to eql 404
+        parsed = JSON.parse(last_response.body)
+        expect(parsed).to have_key 'error'
+        expect(parsed['error']).to eql 'Route not found'
       end
     end
   end

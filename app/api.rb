@@ -53,5 +53,10 @@ module Notes
         end
       end
     end
+
+    route :any, '*path' do
+      status(404)
+      { error: 'Route not found' }
+    end
   end
 end
