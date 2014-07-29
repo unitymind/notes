@@ -3,7 +3,7 @@ module Notes
     include Rack::Test::Methods
 
     def app
-      Notes::App.instance
+      Notes::ApiApp.instance
     end
 
     context 'CORS' do

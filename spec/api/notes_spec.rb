@@ -3,7 +3,7 @@ module Notes
     include Rack::Test::Methods
 
     def app
-      Notes::App.instance
+      Notes::ApiApp.instance
     end
 
     context 'GET /notes' do
@@ -26,7 +26,7 @@ module Notes
         expect(parsed).to have_key 'note'
         expect(parsed['note']['id']).to eql note.id
         expect(parsed['note']['title']).to eql note.title
-        expect(parsed['note']['created_at']).to eql note.created_at.to_json.gsub('"', '')
+        expect(parsed['note']['created_at']).to eql note.created_at.to_json.gsub('"', '').gsub('/', '-')
         expect(parsed['note']).to_not have_key 'updated_at'
       end
     end

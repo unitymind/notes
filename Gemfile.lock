@@ -120,7 +120,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord
   capybara
   database_cleaner
   factory_girl
@@ -134,4 +133,5 @@ DEPENDENCIES
   rake
   rspec
   selenium-webdriver
+  sinatra
   sinatra-activerecord

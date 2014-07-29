@@ -3,7 +3,7 @@ ruby '2.1.2'
 source 'https://rubygems.org'
 
 gem 'rack-cors'
-gem 'activerecord'
+gem 'sinatra'
 gem 'sinatra-activerecord'
 gem 'pg'
 gem 'rake'
