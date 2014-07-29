@@ -4,6 +4,6 @@
     </div>
     <div ng-show="isDeleting">
         <button type="button" class="btn btn-default" ng-click="cancel()">Abort deletion</button>
-        <button type="button" class="btn btn-danger"  ng-click="confirm()"><i class="fa fa-trash-o"></i>Confirm</button>
+        <button type="button" ng-disabled="isConfirmed" class="btn btn-danger"  ng-click="confirm()"><i class="fa fa-trash-o"></i>Confirm</button>
     </div>
 </div>
