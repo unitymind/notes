@@ -10,6 +10,10 @@ notesControllers.controller('NoteListCtrl',
                 $location.path("/#/index");
             };
 
+            var updateIsEmpty = function() {
+                $scope.isEmpty = (_.size($scope.notes) == 0)
+            }
+
             $scope.isEmpty = true;
             $scope.isRefreshing = false;
             $scope.orderField = $window.sessionStorage.getItem('orderField') ? $window.sessionStorage.getItem('orderField') : 'created_at';
@@ -38,9 +42,7 @@ notesControllers.controller('NoteListCtrl',
 
                 $scope.restService.all('notes').getList().then(function(items) {
                     $scope.notes = items;
-                    if (_.size(items) > 0) {
-                        $scope.isEmpty = false;
-                    }
+                    updateIsEmpty();
                     $scope.isRefreshing = false;
                     $animate.enabled(true);
                 });
@@ -48,11 +50,9 @@ notesControllers.controller('NoteListCtrl',
 
             $scope.delete = function(note) {
                 note.remove().then(function() {
-                    $scope.notes = _.without($scope.notes, note);
-                    if (_.size($scope.notes) === 0) {
-                        $scope.isEmpty = true;
-                    }
                     flash.success = 'Note deleted';
+                    $scope.notes = _.without($scope.notes, note);
+                    updateIsEmpty();
                 }, restErrorsHandler);
             };
 

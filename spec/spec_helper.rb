@@ -20,6 +20,7 @@ RSpec.configure do |config|
   config.expect_with :rspec
 
   config.include FactoryGirl::Syntax::Methods
+  config.include Notes::CapybaraHelpers, type: :feature
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
@@ -27,8 +28,31 @@ RSpec.configure do |config|
   end
 
   config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
+    DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
+
+    # Start transaction
+    DatabaseCleaner.start
+
+    # Run example
+    example.run
+
+    # Rollback transaction
+    DatabaseCleaner.clean
+
+    # Clear session data
+    Capybara.reset_sessions!
   end
+end
+
+
+require 'capybara/rspec'
+# require 'capybara/poltergeist'
+# Capybara.javascript_driver = :poltergeist
+
+Capybara.configure do |config|
+  config.app = Rack::URLMap.new({
+    '/' => Notes::FrontendApp.new,
+        '/api' => Notes::ApiApp.instance
+  })
+  config.server_port = 9293
 end

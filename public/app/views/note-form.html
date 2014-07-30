@@ -2,7 +2,7 @@
     <h1>{{pageHeader}}</h1>
 </div>
 <form role="form" class="form-horizontal" name="noteForm" novalidate>
-    <div class="form-group" ng-show="note.id != null">
+    <div class="form-group" ng-show="note.id != null" id="static-id-group">
         <label class="col-sm-1 control-label">ID</label>
         <div class="col-sm-3">
             <p class="form-control-static">{{note.id}}</p>
@@ -11,17 +11,17 @@
             <div confirm-delete on-confirm="delete(note)" class="pull-right"></div>
         </div>
     </div>
-    <div class="form-group" ng-class="noteForm.title.$invalid ? 'has-error' : ''">
-        <label for="title" class="col-sm-1 control-label">Title</label>
+    <div class="form-group" ng-class="noteForm.title.$invalid ? 'has-error' : ''" id="input-title-group">
+        <label for="input-title" class="col-sm-1 control-label">Title</label>
         <div class="col-sm-7">
-            <input type="text" class="form-control" id="title" name="title" ng-model="note.title" placeholder="Enter title" required />
+            <input type="text" class="form-control" name="title" ng-model="note.title" placeholder="Enter title" id="input-title" required />
             <span ng-if="noteForm.title.$error.required" class="help-block">Title is required.</span>
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-1 col-sm-7">
             <a class="btn btn-default" href="/#/index">Back</a>
-            <input type="submit" class="btn btn-primary pull-right" ng-click="save()" ng-disabled="noteForm.$invalid" />
+            <input type="submit" class="btn btn-primary pull-right" ng-click="save()" ng-disabled="noteForm.$invalid" id="submit-btn"/>
         </div>
     </div>
 </form>

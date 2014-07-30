@@ -8,14 +8,14 @@
     </div>
 </div>
 
-<a class="btn btn-success" href="/#/new" ng-show="isEmpty">Create note</a>
+<a class="btn btn-success" href="/#/new" ng-show="isEmpty" id="create-note-btn">Create note</a>
     <table class="table table-striped table-hover" ng-hide="isEmpty">
     <thead>
         <tr>
             <th class="col-md-1">ID</th>
             <th class="col-md-6">Title</th>
-            <th class="col-md-2">Created at &nbsp;<a class='btn-link' ng-click="toggleOrder()"><span class="glyphicon" ng-class="(orderField == 'created_at') ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span></a></th>
-            <th><a class="btn btn-success pull-left" href="/#/new">Create note</a></th>
+            <th class="col-md-2">Created at &nbsp;<a class='btn-link' ng-click="toggleOrder()" id="toggle-order"><span class="glyphicon" ng-class="(orderField == 'created_at') ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span></a></th>
+            <th><a class="btn btn-success pull-left" href="/#/new" id="create-note-btn">Create note</a></th>
         </tr>
     </thead>
     <tbody>
@@ -23,14 +23,14 @@
             <td><a class="btn-link" href="#/edit/{{note.id}}">{{note.id}}</a></td>
             <td>{{note.title}}</td>
             <td>{{note.created_at | fromNow}}</td>
-            <td><div confirm-delete on-confirm="delete(note)"></div></td>
+            <td><div confirm-delete on-confirm="delete(note)" id="delete-note-{{note.id}}"></div></td>
         </tr>
     </tbody>
 </table>
-<a class="btn btn-primary" ng-click="refresh()" ng-disabled="isRefreshing" ng-hide="isRefreshing">Refresh</a>
+<a class="btn btn-primary" ng-click="refresh()" ng-disabled="isRefreshing" ng-hide="isRefreshing" id="refresh-btn">Refresh</a>
 <div class="checkbox pull-right">
     <label>
-        <input type="checkbox" ng-model="useLocal" ng-change="toggleStorage()">
+        <input type="checkbox" ng-model="useLocal" ng-change="toggleStorage()" id="use-local">
         Use local API
     </label>
 </div>

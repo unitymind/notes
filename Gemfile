@@ -21,5 +21,6 @@ group :test do
   gem 'database_cleaner'
   gem 'rack-test'
   gem 'capybara'
+  gem 'poltergeist'
   gem 'selenium-webdriver'
 end
