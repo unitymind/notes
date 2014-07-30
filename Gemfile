@@ -22,5 +22,6 @@ group :test do
   gem 'rack-test'
   gem 'capybara'
   gem 'poltergeist'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver'
+  # gem 'codeclimate-test-reporter', require: nil
 end

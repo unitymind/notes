@@ -2,6 +2,9 @@ ENV['RACK_ENV'] ||= 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 
+# require 'codeclimate-test-reporter'
+# CodeClimate::TestReporter.start
+
 require 'rack/test'
 require 'factory_girl'
 require 'faker'

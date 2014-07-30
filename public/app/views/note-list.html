@@ -15,7 +15,15 @@
             <th class="col-md-1">ID</th>
             <th class="col-md-6">Title</th>
             <th class="col-md-2">Created at &nbsp;<a class='btn-link' ng-click="toggleOrder()" id="toggle-order"><span class="glyphicon" ng-class="(orderField == 'created_at') ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span></a></th>
-            <th><a class="btn btn-success pull-left" href="/#/new" id="create-note-btn">Create note</a></th>
+            <th>
+                <a class="btn btn-success pull-left" href="/#/new" id="create-note-btn">Create note</a>
+                <div class="checkbox pull-right">
+                    <label>
+                        <input type="checkbox" ng-model="useLocal" ng-change="toggleStorage()" id="use-local">
+                        Use local API
+                    </label>
+                </div>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +36,7 @@
     </tbody>
 </table>
 <a class="btn btn-primary" ng-click="refresh()" ng-disabled="isRefreshing" ng-hide="isRefreshing" id="refresh-btn">Refresh</a>
-<div class="checkbox pull-right">
+<div class="checkbox pull-right" ng-show="isEmpty">
     <label>
         <input type="checkbox" ng-model="useLocal" ng-change="toggleStorage()" id="use-local">
         Use local API

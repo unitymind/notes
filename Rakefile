@@ -1,10 +1,8 @@
-if ENV['RACK_ENV'] != 'production'
-  require 'sinatra/activerecord/rake'
+require 'sinatra/activerecord/rake'
+require File.expand_path('../config/environment', __FILE__)
+
+if %q(test development).include?(ENV['RACK_ENV'])
   require 'rspec/core/rake_task'
-
   RSpec::Core::RakeTask.new(:spec)
-
   task :default => :spec
-else
-  load 'active_record/railties/databases.rake'
 end
