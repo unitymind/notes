@@ -9,7 +9,7 @@
 </div>
 
 <a class="btn btn-success" href="/#/new" ng-show="isEmpty">Create note</a>
-<table class="table table-striped" ng-hide="isEmpty">
+    <table class="table table-striped table-hover" ng-hide="isEmpty">
     <thead>
         <tr>
             <th class="col-md-1">ID</th>
@@ -19,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="note-listing" ng-repeat="note in notes | orderBy: orderField">
+        <tr class="note-listing" ng-repeat="note in notes | orderBy: orderField" ng-dblclick="goToEdit(note.id)">
             <td><a class="btn-link" href="#/edit/{{note.id}}">{{note.id}}</a></td>
             <td>{{note.title}}</td>
             <td>{{note.created_at | fromNow}}</td>

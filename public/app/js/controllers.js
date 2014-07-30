@@ -1,8 +1,8 @@
 var notesControllers = angular.module('notesControllers', ['restangular']);
 
 notesControllers.controller('NoteListCtrl',
-    ['$scope', '$animate', '$window', 'LocalRestangular', 'Restangular', 'flash',
-        function($scope, $animate, $window, LocalRestangular, Restangular, flash) {
+    ['$scope', '$animate', '$location', '$window', 'LocalRestangular', 'Restangular', 'flash',
+        function($scope, $animate, $location, $window, LocalRestangular, Restangular, flash) {
             var restErrorsHandler = function(response) {
                 if (response.status === 404) {
                     flash.error = 'Note not found!';
@@ -17,6 +17,10 @@ notesControllers.controller('NoteListCtrl',
             $scope.toggleOrder = function() {
                 $scope.orderField = ($scope.orderField === 'created_at') ? '-created_at' : 'created_at';
                 $window.sessionStorage.setItem('orderField', $scope.orderField);
+            };
+
+            $scope.goToEdit = function(noteId) {
+                $location.path("edit/" + noteId);
             };
 
             $scope.refresh = function() {
