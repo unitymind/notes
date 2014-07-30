@@ -1,6 +1,9 @@
-test:
+default: &default
   adapter: postgresql
-  database: travis_ci_test
-  username: postgres
   encoding: unicode
   pool: 5
+
+test:
+  <<: *default
+  database: travis_ci_test
+  username: postgres
