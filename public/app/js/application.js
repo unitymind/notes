@@ -7,8 +7,8 @@ var notesApp = angular.module('notesApp', [
     'angular-flash.flash-alert-directive'
 ]);
 
-notesApp.config(['$routeProvider', 'RestangularProvider',
-    function($routeProvider, RestangularProvider) {
+notesApp.config(['$routeProvider', 'RestangularProvider', 'flashProvider',
+    function($routeProvider, RestangularProvider, flashProvider) {
         $routeProvider.
             when('/index', {
                 templateUrl: 'app/views/note-list.html',
@@ -62,6 +62,8 @@ notesApp.config(['$routeProvider', 'RestangularProvider',
 
             return modifiedData;
         });
+
+        flashProvider.errorClassnames.push('alert-danger');
     }
 ]);
 

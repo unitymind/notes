@@ -3,16 +3,23 @@ var notesControllers = angular.module('notesControllers', ['restangular']);
 notesControllers.controller('NoteListCtrl',
     ['$scope', '$animate', '$window', 'LocalRestangular', 'Restangular', 'flash',
         function($scope, $animate, $window, LocalRestangular, Restangular, flash) {
+            var restErrorsHandler = function(response) {
+                if (response.status === 404) {
+                    flash.error = 'Note not found!';
+                }
+                $location.path("/#/index");
+            };
+
             $scope.isEmpty = true;
             $scope.isRefreshing = false;
-            $scope.orderField = 'created_at';
+            $scope.orderField = $window.sessionStorage.getItem('orderField') ? $window.sessionStorage.getItem('orderField') : 'created_at';
 
             $scope.toggleOrder = function() {
                 $scope.orderField = ($scope.orderField === 'created_at') ? '-created_at' : 'created_at';
-            }
+                $window.sessionStorage.setItem('orderField', $scope.orderField);
+            };
 
             $scope.refresh = function() {
-                console.log($window.sessionStorage.getItem('useLocal'));
                 $scope.isRefreshing = true;
                 $animate.enabled(false);
                 $scope.notes = [];
@@ -42,7 +49,7 @@ notesControllers.controller('NoteListCtrl',
                         $scope.isEmpty = true;
                     }
                     flash.success = 'Note deleted';
-                });
+                }, restErrorsHandler);
             };
 
             $scope.toggleStorage = function() {
@@ -51,7 +58,7 @@ notesControllers.controller('NoteListCtrl',
                     flash.success = 'Switch to local /api';
                 } else {
                     $window.sessionStorage.removeItem('useLocal');
-                    flash.success = 'Switch to http://notes-api-test.herokuapp.com/v1';
+                    flash.success = 'Switch to external http://notes-api-test.herokuapp.com/v1';
                 }
 
                 $scope.refresh();
@@ -60,13 +67,20 @@ notesControllers.controller('NoteListCtrl',
             $scope.refresh();
 }]).controller('NoteFormCtrl', ['$scope', '$location', '$window', 'LocalRestangular', 'Restangular', 'flash', '$routeParams',
         function($scope, $location, $window, LocalRestangular, Restangular, flash, $routeParams) {
+            var restErrorsHandler = function(response) {
+                if (response.status === 404) {
+                    flash.error = 'Note not found!';
+                }
+                $location.path("/#/index");
+            };
+
             $scope.restService = $window.sessionStorage.getItem('useLocal') ? LocalRestangular : Restangular;
 
             if ($routeParams.noteId) {
                 $scope.pageHeader = 'Edit your note';
                 $scope.restService.one("notes", $routeParams.noteId).get().then(function(item){
                     $scope.note = item
-                });
+                }, restErrorsHandler);
             } else {
                 $scope.note = {}
                 $scope.pageHeader = 'Create new note';
@@ -76,12 +90,12 @@ notesControllers.controller('NoteListCtrl',
                     $scope.note.save().then(function(){
                         flash.success = 'Note saved';
                         $location.path("/#/index");
-                    });
+                    }, restErrorsHandler);
                 } else {
                     $scope.restService.all('notes').post($scope.note).then(function(note) {
                         flash.success = 'Note created';
                         $location.path("/#/index");
-                    });
+                    }, restErrorsHandler);
                 }
             };
 }]);
