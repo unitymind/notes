@@ -44,10 +44,13 @@ RSpec.configure do |config|
   end
 end
 
-
 require 'capybara/rspec'
-# require 'capybara/poltergeist'
-# Capybara.javascript_driver = :poltergeist
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+# Forces all threads to share the same connection. This works on
+# Capybara because it starts the web server in a thread.
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 Capybara.configure do |config|
   config.app = Rack::URLMap.new({

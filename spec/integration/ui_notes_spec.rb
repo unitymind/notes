@@ -146,10 +146,13 @@ module Notes
 
       describe 'orderBy Created at feature' do
         it 'should change the order to opposite' do
-          # Create note using helper
-          create_note(Faker::Lorem.sentence)
-          create_note(Faker::Lorem.sentence)
-          expect(page).to have_xpath('//table/tbody/tr', count: 2)
+          # Create notes using helper
+          3.times do
+            create_note(Faker::Lorem.sentence)
+            sleep(1)
+          end
+
+          expect(page).to have_xpath('//table/tbody/tr', count: 3)
 
           start_order = page.all(:xpath, '//td/a').map(&:text)
 
