@@ -1,4 +1,5 @@
 Notes API and frontend
 =====
 
-Please use base url: http://young-lowlands-3367.herokuapp.com/api
+API endpoint url: http://young-lowlands-3367.herokuapp.com/api
+AngularJS UI: http://young-lowlands-3367.herokuapp.com/
