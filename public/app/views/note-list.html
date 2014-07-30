@@ -25,3 +25,9 @@
     </tbody>
 </table>
 <a class="btn btn-primary" ng-click="refresh()" ng-disabled="isRefreshing" ng-hide="isRefreshing">Refresh</a>
+<div class="checkbox pull-right">
+    <label>
+        <input type="checkbox" ng-model="useLocal" ng-change="toggleStorage()">
+        Use local API
+    </label>
+</div>

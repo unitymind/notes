@@ -26,7 +26,7 @@ notesApp.config(['$routeProvider', 'RestangularProvider',
                 redirectTo: '/index'
             });
 
-        RestangularProvider.setBaseUrl('/api');
+        RestangularProvider.setBaseUrl('http://notes-api-test.herokuapp.com/v1');
         RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
             var extractedData;
             if (what === 'notes') {
@@ -43,7 +43,12 @@ notesApp.config(['$routeProvider', 'RestangularProvider',
         });
 
         RestangularProvider.addRequestInterceptor(function(element, operation, what) {
-            var modifiedData;
+            if (operation === 'remove') {
+                return undefined;
+            }
+
+            var modifiedData = element;
+
             switch (what) {
                 case 'notes':
                     switch (operation) {
@@ -51,12 +56,7 @@ notesApp.config(['$routeProvider', 'RestangularProvider',
                         case 'post':
                             modifiedData = { note: element };
                             break;
-                        default:
-                            modifiedData = element;
                     }
-                    break;
-                default:
-                    modifiedData = element;
                     break;
             }
 
@@ -64,3 +64,9 @@ notesApp.config(['$routeProvider', 'RestangularProvider',
         });
     }
 ]);
+
+notesApp.factory('LocalRestangular', function(Restangular) {
+    return Restangular.withConfig(function(RestangularConfigurer) {
+        RestangularConfigurer.setBaseUrl('/api');
+    });
+});

@@ -1,45 +1,70 @@
 var notesControllers = angular.module('notesControllers', ['restangular']);
 
-notesControllers.controller('NoteListCtrl', ['$scope', '$animate', 'Restangular', 'flash', function($scope, $animate, Restangular, flash) {
-    $scope.isEmpty = true;
-    $scope.isRefreshing = false;
-    $scope.orderField = 'created_at';
-
-    $scope.toggleOrder = function() {
-        $scope.orderField = ($scope.orderField === 'created_at') ? '-created_at' : 'created_at';
-    }
-
-    $scope.refresh = function() {
-        $scope.isRefreshing = true;
-        $animate.enabled(false);
-        $scope.notes = [];
-
-        Restangular.all('notes').getList().then(function(items) {
-            $scope.notes = items;
-            if (_.size(items) > 0) {
-                $scope.isEmpty = false;
-            }
+notesControllers.controller('NoteListCtrl',
+    ['$scope', '$animate', '$window', 'LocalRestangular', 'Restangular', 'flash',
+        function($scope, $animate, $window, LocalRestangular, Restangular, flash) {
+            $scope.isEmpty = true;
             $scope.isRefreshing = false;
-            $animate.enabled(true);
-        });
-    };
+            $scope.orderField = 'created_at';
 
-    $scope.delete = function(note) {
-        note.remove().then(function() {
-            $scope.notes = _.without($scope.notes, note);
-            if (_.size($scope.notes) === 0) {
-                $scope.isEmpty = true;
+            $scope.toggleOrder = function() {
+                $scope.orderField = ($scope.orderField === 'created_at') ? '-created_at' : 'created_at';
             }
-            flash.success = 'Note deleted';
-        });
-    };
 
-    $scope.refresh();
-}]).controller('NoteFormCtrl', ['$scope', '$location', 'Restangular', 'flash', '$routeParams',
-        function($scope, $location, Restangular, flash, $routeParams) {
+            $scope.refresh = function() {
+                console.log($window.sessionStorage.getItem('useLocal'));
+                $scope.isRefreshing = true;
+                $animate.enabled(false);
+                $scope.notes = [];
+
+                if ($window.sessionStorage.getItem('useLocal')) {
+                    $scope.restService = LocalRestangular;
+                    $scope.useLocal = true;
+                } else {
+                    $scope.restService = Restangular;
+                    $scope.useLocal = false;
+                }
+
+                $scope.restService.all('notes').getList().then(function(items) {
+                    $scope.notes = items;
+                    if (_.size(items) > 0) {
+                        $scope.isEmpty = false;
+                    }
+                    $scope.isRefreshing = false;
+                    $animate.enabled(true);
+                });
+            };
+
+            $scope.delete = function(note) {
+                note.remove().then(function() {
+                    $scope.notes = _.without($scope.notes, note);
+                    if (_.size($scope.notes) === 0) {
+                        $scope.isEmpty = true;
+                    }
+                    flash.success = 'Note deleted';
+                });
+            };
+
+            $scope.toggleStorage = function() {
+                if ($scope.useLocal) {
+                    $window.sessionStorage.setItem('useLocal', $scope.useLocal);
+                    flash.success = 'Switch to local /api';
+                } else {
+                    $window.sessionStorage.removeItem('useLocal');
+                    flash.success = 'Switch to http://notes-api-test.herokuapp.com/v1';
+                }
+
+                $scope.refresh();
+            }
+
+            $scope.refresh();
+}]).controller('NoteFormCtrl', ['$scope', '$location', '$window', 'LocalRestangular', 'Restangular', 'flash', '$routeParams',
+        function($scope, $location, $window, LocalRestangular, Restangular, flash, $routeParams) {
+            $scope.restService = $window.sessionStorage.getItem('useLocal') ? LocalRestangular : Restangular;
+
             if ($routeParams.noteId) {
                 $scope.pageHeader = 'Edit your note';
-                Restangular.one("notes", $routeParams.noteId).get().then(function(item){
+                $scope.restService.one("notes", $routeParams.noteId).get().then(function(item){
                     $scope.note = item
                 });
             } else {
@@ -53,7 +78,7 @@ notesControllers.controller('NoteListCtrl', ['$scope', '$animate', 'Restangular'
                         $location.path("/#/index");
                     });
                 } else {
-                    Restangular.all('notes').post($scope.note).then(function(note) {
+                    $scope.restService.all('notes').post($scope.note).then(function(note) {
                         flash.success = 'Note created';
                         $location.path("/#/index");
                     });
