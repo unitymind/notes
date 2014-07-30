@@ -98,4 +98,15 @@ notesControllers.controller('NoteListCtrl',
                     }, restErrorsHandler);
                 }
             };
+
+            $scope.delete = function(note) {
+                note.remove().then(function() {
+                    $scope.notes = _.without($scope.notes, note);
+                    if (_.size($scope.notes) === 0) {
+                        $scope.isEmpty = true;
+                    }
+                    flash.success = 'Note deleted';
+                    $location.path("/#/index");
+                }, restErrorsHandler);
+            };
 }]);
