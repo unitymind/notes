@@ -11,8 +11,8 @@ notesControllers.controller('NoteListCtrl',
             };
 
             var updateIsEmpty = function() {
-                $scope.isEmpty = (_.size($scope.notes) == 0)
-            }
+                $scope.isEmpty = (_.size($scope.notes) === 0);
+            };
 
             $scope.isEmpty = true;
             $scope.isRefreshing = false;
@@ -66,7 +66,7 @@ notesControllers.controller('NoteListCtrl',
                 }
 
                 $scope.refresh();
-            }
+            };
 
             $scope.refresh();
 }]).controller('NoteFormCtrl', ['$scope', '$location', '$window', 'LocalRestangular', 'Restangular', 'flash', '$routeParams',
@@ -83,10 +83,10 @@ notesControllers.controller('NoteListCtrl',
             if ($routeParams.noteId) {
                 $scope.pageHeader = 'Edit your note';
                 $scope.restService.one("notes", $routeParams.noteId).get().then(function(item){
-                    $scope.note = item
+                    $scope.note = item;
                 }, restErrorsHandler);
             } else {
-                $scope.note = {}
+                $scope.note = {};
                 $scope.pageHeader = 'Create new note';
             }
             $scope.save = function() {

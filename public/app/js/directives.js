@@ -22,5 +22,5 @@ angular.module('notesApp').directive('confirmDelete', function(){
                 $scope.onConfirm();
             };
         }
-    }
+    };
 });
