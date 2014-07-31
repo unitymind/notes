@@ -1,12 +1,13 @@
 <div class="page-header">
+    <div flash-alert="success" active-class="alert in" class="fade pull-right" role="alert">
+        <span class="alert-message">{{flash.message}}</span>
+    </div>
+    <div flash-alert="error" active-class="alert in" class="fade pull-right" role="alert">
+        <span class="alert-message">{{flash.message}}</span>
+    </div>
     <h1>Your Notes</h1>
-    <div flash-alert="success" active-class="alert in" class="fade" role="alert">
-        <span class="alert-message">{{flash.message}}</span>
-    </div>
-    <div flash-alert="error" active-class="alert in" class="fade" role="alert">
-        <span class="alert-message">{{flash.message}}</span>
-    </div>
 </div>
+
 
 <a class="btn btn-success" href="/#/new" ng-show="isEmpty" id="create-note-btn">Create note</a>
     <table class="table table-striped table-hover" ng-hide="isEmpty">

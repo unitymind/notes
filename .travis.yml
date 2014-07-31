@@ -4,7 +4,8 @@ rvm: 2.1.2
 addons:
   postgresql: '9.3'
   code_climate:
-    repo_token: 9595b79d5ee97c26d5cc6b00298fb63b395dfdf6663faa1dfbfaa6629bacdbaf
+    repo_token:
+      secure: F966KKnRQpViEba94dM3IejkYWgOvkyCtpnHFZdhaj73Wjuo4SKk/B1lIGqb4jEMmyGTGPY2aTJ5oxgdT3Y/9aGHZtRD69/MXNPORV6NrAWdV2V+AhMRrqG0CyERgwpgXPW5VLmJEL7JoCWr8d5ot/jsqarpLMe8KUH9N/OugBs=
 before_script:
 - cp config/database.yml.travis config/database.yml
 - psql -c 'create database travis_ci_test;' -U postgres

@@ -10,11 +10,11 @@ html[ng-app="notesApp"]
     link[href="/app/css/animations.css" rel="stylesheet"]
   body
     .navbar.navbar-inverse.navbar-fixed-top[role="navigation"]
-      .container
+      .container-fluid
         .navbar-header
           a.navbar-brand[href="/"]
             | Notes API UI
-    .container
+    .container-fluid
       == yield
     script[src="/js/jquery-1.11.1.js"]
     script[src="/js/underscore.js"]
