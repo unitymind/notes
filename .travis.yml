@@ -17,3 +17,4 @@ deploy:
   api_key:
     secure: N09bigi+HA1anL8/KXpUb7T3CkaaT6jdUxsKv8Wy9VhAJUoywWY9yhOGAo+eigKYn06mhc+ufKmqbiMq1m3Py7Sz3jJz1mIEiZcBSW2r/sveJ7jKVultUjiD+ZbQLKEViwER6qMpLkRkwdmszPNADvRtAdjoWg8jNO6HDRLNhGw=
   app: young-lowlands-3367
+  strategy: git
