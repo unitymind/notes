@@ -1,13 +1,14 @@
-<div class="page-header">
-    <div flash-alert="success" active-class="alert in" class="fade pull-right" role="alert">
-        <span class="alert-message">{{flash.message}}</span>
+<div class="row">
+    <div class="col-md-3 page-header"><h1>{{pageHeader}}</h1></div>
+    <div class="col-md-8 pull-right">
+        <div flash-alert="success" active-class="alert in" class="fade" role="alert">
+            <span class="alert-message">{{flash.message}}</span>
+        </div>
+        <div flash-alert="error" active-class="alert in" class="fade" role="alert">
+            <span class="alert-message">{{flash.message}}</span>
+        </div>
     </div>
-    <div flash-alert="error" active-class="alert in" class="fade pull-right" role="alert">
-        <span class="alert-message">{{flash.message}}</span>
-    </div>
-    <h1>Your Notes</h1>
 </div>
-
 
 <a class="btn btn-success" href="/#/new" ng-show="isEmpty" id="create-note-btn">Create note</a>
     <table class="table table-striped table-hover" ng-hide="isEmpty">
@@ -28,10 +29,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="note-listing" ng-repeat="note in notes | orderBy: orderField" ng-dblclick="goToEdit(note.id)">
-            <td><a class="btn-link" href="#/edit/{{note.id}}">{{note.id}}</a></td>
-            <td>{{note.title}}</td>
-            <td>{{note.created_at | fromNow}}</td>
+        <tr class="note-listing" ng-repeat="note in notes | orderBy: orderField">
+            <td ng-dblclick="goToEdit(note.id)"><a class="btn-link" href="#/edit/{{note.id}}">{{note.id}}</a></td>
+            <td ng-dblclick="goToEdit(note.id)">{{note.title}}</td>
+            <td ng-dblclick="goToEdit(note.id)">{{note.created_at | fromNow}}</td>
             <td><div confirm-delete on-confirm="delete(note)" id="delete-note-{{note.id}}"></div></td>
         </tr>
     </tbody>

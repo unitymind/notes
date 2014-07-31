@@ -3,20 +3,21 @@ var notesControllers = angular.module('notesControllers', ['restangular']);
 notesControllers.controller('NoteListCtrl',
     ['$scope', '$animate', '$location', '$window', 'LocalRestangular', 'Restangular', 'flash',
         function($scope, $animate, $location, $window, LocalRestangular, Restangular, flash) {
-            var restErrorsHandler = function(response) {
+            $scope.pageHeader = 'Your Notes';
+            $scope.isEmpty = true;
+            $scope.isRefreshing = false;
+            $scope.orderField = $window.sessionStorage.getItem('orderField') ? $window.sessionStorage.getItem('orderField') : 'created_at';
+
+            $scope.restErrorsHandler = function(response) {
                 if (response.status === 404) {
                     flash.error = 'Note not found!';
                 }
                 $location.path("/#/index");
             };
 
-            var updateIsEmpty = function() {
+            $scope.updateIsEmpty = function() {
                 $scope.isEmpty = (_.size($scope.notes) === 0);
             };
-
-            $scope.isEmpty = true;
-            $scope.isRefreshing = false;
-            $scope.orderField = $window.sessionStorage.getItem('orderField') ? $window.sessionStorage.getItem('orderField') : 'created_at';
 
             $scope.toggleOrder = function() {
                 $scope.orderField = ($scope.orderField === 'created_at') ? '-created_at' : 'created_at';
@@ -42,7 +43,7 @@ notesControllers.controller('NoteListCtrl',
 
                 $scope.restService.all('notes').getList().then(function(items) {
                     $scope.notes = items;
-                    updateIsEmpty();
+                    $scope.updateIsEmpty();
                     $scope.isRefreshing = false;
                     $animate.enabled(true);
                 });
@@ -52,8 +53,8 @@ notesControllers.controller('NoteListCtrl',
                 note.remove().then(function() {
                     flash.success = 'Note deleted';
                     $scope.notes = _.without($scope.notes, note);
-                    updateIsEmpty();
-                }, restErrorsHandler);
+                    $scope.updateIsEmpty();
+                }, $scope.restErrorsHandler);
             };
 
             $scope.toggleStorage = function() {
@@ -71,20 +72,20 @@ notesControllers.controller('NoteListCtrl',
             $scope.refresh();
 }]).controller('NoteFormCtrl', ['$scope', '$location', '$window', 'LocalRestangular', 'Restangular', 'flash', '$routeParams',
         function($scope, $location, $window, LocalRestangular, Restangular, flash, $routeParams) {
-            var restErrorsHandler = function(response) {
+            $scope.restService = $window.sessionStorage.getItem('useLocal') ? LocalRestangular : Restangular;
+
+            $scope.restErrorsHandler = function(response) {
                 if (response.status === 404) {
                     flash.error = 'Note not found!';
                 }
                 $location.path("/#/index");
             };
 
-            $scope.restService = $window.sessionStorage.getItem('useLocal') ? LocalRestangular : Restangular;
-
             if ($routeParams.noteId) {
                 $scope.pageHeader = 'Edit your note';
                 $scope.restService.one("notes", $routeParams.noteId).get().then(function(item){
                     $scope.note = item;
-                }, restErrorsHandler);
+                }, $scope.restErrorsHandler);
             } else {
                 $scope.note = {};
                 $scope.pageHeader = 'Create new note';
@@ -94,12 +95,12 @@ notesControllers.controller('NoteListCtrl',
                     $scope.note.save().then(function(){
                         flash.success = 'Note saved';
                         $location.path("/#/index");
-                    }, restErrorsHandler);
+                    }, $scope.restErrorsHandler);
                 } else {
                     $scope.restService.all('notes').post($scope.note).then(function(note) {
                         flash.success = 'Note created';
                         $location.path("/#/index");
-                    }, restErrorsHandler);
+                    }, $scope.restErrorsHandler);
                 }
             };
 
@@ -111,6 +112,6 @@ notesControllers.controller('NoteListCtrl',
                     }
                     flash.success = 'Note deleted';
                     $location.path("/#/index");
-                }, restErrorsHandler);
+                }, $scope.restErrorsHandler);
             };
 }]);
